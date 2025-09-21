@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="app_title">حكينا - قاموس اللهجة اللبنانية الذكي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-100 text-[var(--text-dark)] transition-all duration-300">
+
+    <div id="app" class="container mx-auto max-w-2xl p-4 min-h-screen flex flex-col">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div class="flex items-baseline gap-2">
+                <h1 class="text-3xl font-bold" data-lang-key="header_title">حكينا</h1>
+                <span class="text-sm text-gray-600" data-lang-key="header_subtitle">قاموس اللهجة اللبنانية الذكي</span>
+            </div>
+            <button id="lang-switcher" class="px-3 py-1.5 text-sm font-bold glass-card rounded-lg shadow-sm hover:bg-white/80 transition">
+                English
+            </button>
+        </header>
+
+        <main class="flex-grow">
+            <!-- Home Screen -->
+            <div id="home-screen">
+                <form id="search-form" class="mb-6">
+                    <div class="relative">
+                        <input type="text" id="search-input" data-lang-placeholder="search_placeholder" placeholder="اكتب أو الفظ كلمة..." class="w-full text-lg px-4 py-3 bg-white/80 border-2 border-transparent focus:border-[var(--accent-green)] rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--accent-green)] transition">
+                        <button type="button" id="mic-btn" class="absolute top-1/2 -translate-y-1/2 right-3 text-[var(--accent-green)] hover:opacity-75" data-lang-title="mic_tooltip" title="البحث بالصوت">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                        </button>
+                    </div>
+                     <button type="submit" id="search-btn" class="w-full mt-4 bg-[var(--accent-green)] text-white font-bold py-3 rounded-xl shadow-lg hover:bg-seagreen-700 transition transform hover:scale-105">
+                        <span data-lang-key="search_button_text">ابحث عن الكلمة</span>
+                    </button>
+                </form>
+
+                <div id="word-of-the-day" class="glass-card p-5 rounded-2xl shadow-lg">
+                    <h2 class="text-xl font-bold mb-2" data-lang-key="word_of_the_day_title">كلمة اليوم</h2>
+                    <div id="wod-content">
+                        <p class="text-2xl font-bold text-[var(--accent-green)]">كزدورة</p>
+                        <p class="mt-1 text-gray-700">مشوار قصير للترفيه أو التسلية.</p>
+                    </div>
+                    <div id="wod-loader" class="hidden text-center"><div class="loader"></div></div>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" class="hidden">
+                 <button id="back-btn" class="flex items-center gap-2 mb-4 font-bold text-gray-600 hover:text-[var(--text-dark)]">
+                    <svg id="back-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="rtl-icon-fix"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg>
+                    <span data-lang-key="back_button">رجوع</span>
+                </button>
+                <div id="loading-spinner" class="text-center py-10"><div class="loader"></div></div>
+                <div id="error-message" class="hidden glass-card bg-red-500/20 text-red-800 px-4 py-3 rounded-xl" role="alert"></div>
+                <div id="results-content" class="hidden glass-card p-5 rounded-2xl shadow-lg space-y-5">
+                    
+                    <div class="flex items-center gap-3">
+                        <h2 id="result-word" class="text-5xl font-bold"></h2>
+                        <button id="tts-word-btn" class="text-[var(--accent-green)] hover:opacity-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        </button>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold border-b-2 border-[var(--accent-green)] pb-1 inline-block mb-2" data-lang-key="quick_meaning_title">المعنى السريع</h3>
+                        <p id="result-meaning" class="text-gray-700"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold border-b-2 border-[var(--accent-green)] pb-1 inline-block mb-2" data-lang-key="explanation_title">الشرح</h3>
+                        <p id="result-explanation" class="text-gray-700 leading-relaxed"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold border-b-2 border-[var(--accent-green)] pb-1 inline-block mb-2" data-lang-key="examples_title">أمثلة</h3>
+                        <ul id="result-examples" class="space-y-3"></ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center py-4 mt-8">
+            <p class="text-xs text-gray-500">تصميم leb4tech</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+body {
+    font-family: 'Cairo', 'Poppins', sans-serif;
+    --primary-bg: #F8F9FA;
+    --text-dark: #0B3954;
+    --accent-green: #2E8B57; /* SeaGreen, a bit softer */
+    --border-grey: #CED4DA;
+}
+.font-cairo { font-family: 'Cairo', sans-serif; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
+.rtl-icon-fix { transform: scaleX(-1); }
+.glass-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0,0,0,0.1);
+    border-bottom-color: var(--accent-green);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
